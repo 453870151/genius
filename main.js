@@ -5,7 +5,7 @@
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"Connect":"Connect","Home":"Home","Address":"Address","Select Language":"Select Language","My Assets":"My Assets","Donation pool":"Donation pool","Performance":"Performance","Link":"Link","Investment List":"Investment List","Redemption List":"Redemption List","Index":"Index","Date":"Date","Principal":"Principal","Profit":"Profit","Progress":"Progress","Redemption":"Redemption","Pending":"Pending","Redeemed":"Redeemed","Add Asset":"Add Asset","Please enter the amount to add":"Please enter the amount to add","Max":"Max:","Please select the number of days":"Please select the number of days","Confirm":"Confirm","Balance":"Balance:","Approve":"Approve","Copy successful":"Copy successful","Pool added successfully":"Pool added successfully","Pool added failed":"Pool added failed","Insufficient balance":"Insufficient balance","Red":"Red","Days":"Days","CI":",CI","Please connect wallet first":"Please connect wallet first","No data available":"No data available","Invitation Link":"Invitation Link","Please donate the bottom pool through the invitation link":"Please donate the bottom pool through the invitation link","The inviter has not donated the bottom pool, so you cannot donate the bottom pool temporarily":"The inviter has not donated the bottom pool, so you cannot donate the bottom pool temporarily","Redemption successful":"Redemption successful","Redemption failed":"Redemption failed","":""}');
+module.exports = /*#__PURE__*/JSON.parse('{"Connect":"Connect","Home":"Home","Address":"Address","Select Language":"Select Language","My Assets":"My Assets","Donation pool":"Donation pool","Performance":"Performance","Link":"Link","Investment List":"Investment List","Redemption List":"Redemption List","Index":"ID","Date":"Date","Principal":"Principal","Profit":"Profit","Progress":"Progress","Redemption":"Redemption","Pending":"Pending","Redeemed":"Redeemed","Add Asset":"Add Asset","Please enter the amount to add":"Please enter the amount to add","Max":"Max:","Please select the number of days":"Please select the number of days","Confirm":"Confirm","Balance":"Balance:","Approve":"Approve","Copy successful":"Copy successful","Pool added successfully":"Pool added successfully","Pool added failed":"Pool added failed","Insufficient balance":"Insufficient balance","Red":"Redemption","Days":"Days","CI":",CI","Please connect wallet first":"Please connect wallet first","No data available":"No data available","Invitation Link":"Invitation Link","Please donate the bottom pool through the invitation link":"Please donate the bottom pool through the invitation link","The inviter has not donated the bottom pool, so you cannot donate the bottom pool temporarily":"The inviter has not donated the bottom pool, so you cannot donate the bottom pool temporarily","Redemption successful":"Redemption successful","Redemption failed":"Redemption failed","Maximum single pledge amount":"Maximum single pledge amount:","Cannot exceed the maximum pledged amount":"Cannot exceed the maximum pledged amount","":""}');
 
 /***/ }),
 
@@ -13,7 +13,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"Connect":"Connect","Home":"Home","Ad
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"Connect":"连接钱包","Home":"首页","Address":"地址","Select Language":"选择语言","My Assets":"我的资产","Donation pool":"捐赠底池","Performance":"业绩","Link":"链接","Investment List":"投资列表","Redemption List":"赎回列表","Index":"序号","Date":"日期","Principal":"本金","Profit":"盈利","Progress":"赎回进展","Redemption":"赎回","Pending":"等待赎回","Redeemed":"已赎回","Add Asset":"增加资产","Please enter the amount to add":"请输入增加金额","Max":"最大：","Please select the number of days":"请选择天数","Confirm":"确认","Balance":"余额：","Approve":"授权","Copy successful":"复制成功","Pool added successfully":"底池添加成功","Pool added failed":"底池添加失败","Insufficient balance":"余额不足","Red":"赎回","Days":"天","CI":"，复利","Please connect wallet first":"请先连接钱包","No data available":"暂无数据","Invitation Link":"邀请链接","Please donate the bottom pool through the invitation link":"请通过邀请链接进行捐赠底池","The inviter has not donated the bottom pool, so you cannot donate the bottom pool temporarily":"邀请人没有捐赠底池，您暂不能捐赠底池","Redemption successful":"赎回成功","Redemption failed":"赎回失败","":""}');
+module.exports = /*#__PURE__*/JSON.parse('{"Connect":"连接钱包","Home":"首页","Address":"地址","Select Language":"选择语言","My Assets":"我的资产","Donation pool":"捐赠底池","Performance":"业绩","Link":"链接","Investment List":"投资列表","Redemption List":"赎回列表","Index":"序号","Date":"日期","Principal":"本金","Profit":"盈利","Progress":"进展","Redemption":"赎回","Pending":"等待赎回","Redeemed":"已赎回","Add Asset":"增加资产","Please enter the amount to add":"请输入增加金额","Max":"最大：","Please select the number of days":"请选择天数","Confirm":"确认","Balance":"余额：","Approve":"授权","Copy successful":"复制成功","Pool added successfully":"底池添加成功","Pool added failed":"底池添加失败","Insufficient balance":"余额不足","Red":"赎回","Days":"天","CI":"，复利","Please connect wallet first":"请先连接钱包","No data available":"暂无数据","Invitation Link":"邀请链接","Please donate the bottom pool through the invitation link":"请通过邀请链接进行捐赠底池","The inviter has not donated the bottom pool, so you cannot donate the bottom pool temporarily":"邀请人没有捐赠底池，您暂不能捐赠底池","Redemption successful":"赎回成功","Redemption failed":"赎回失败","Maximum single pledge amount":"单笔最大质押金额：","Cannot exceed the maximum pledged amount":"不能大于最大质押金额","":""}');
 
 /***/ }),
 
@@ -272,6 +272,7 @@ const CustomStyle = styled_components_browser_esm/* default */.Ay.div`
 		font-weight: bold;
     	color: #F2EBB4;
     	margin-right: 10px;
+		cursor: pointer;
 	}
 	.header_lognn {
 		display: flex;
@@ -306,14 +307,12 @@ function Header() {
   const connectWallet = useConnectWallet();
   const navigate = (0,react_router_dist/* useNavigate */.Zp)();
   const [visible, setVisible] = (0,react.useState)(false);
-
-  // useEffect(() => {
-  // 	if (!address) {
-  // 		// 自动打开连接钱包
-  // 		connectWallet();
-  // 	}
-  // }, [address])
-
+  (0,react.useEffect)(() => {
+    if (!address) {
+      // 自动打开连接钱包
+      connectWallet();
+    }
+  }, [address]);
   const handleNavigateClick = name => {
     navigate(name);
     window.scrollTo(0, 0);
@@ -563,7 +562,8 @@ function AddPollModal(_ref) {
     isBindReferral,
     isInvitationReferral,
     dayAccountMax,
-    dayAccountStake
+    dayAccountStake,
+    maxAmount
   } = _ref;
   const {
     i18n,
@@ -776,6 +776,20 @@ function AddPollModal(_ref) {
       });
       return;
     }
+    if (Number(inputNumber) > Number(maxAmount)) {
+      messageApi.open({
+        type: 'warning',
+        content: t('Maximum single pledge amount') + toFixedFloor(maxAmount, 0)
+      });
+      return;
+    }
+    if (Number(inputNumber) > Number(dayAccountMax) - Number(dayAccountStake)) {
+      messageApi.open({
+        type: 'warning',
+        content: t('Cannot exceed the maximum pledged amount')
+      });
+      return;
+    }
 
     // 1、判断自己是否有质押
     if (isBindReferral) {
@@ -821,7 +835,7 @@ function AddPollModal(_ref) {
     className: "modal_input"
   }, /*#__PURE__*/react.createElement(input/* default */.A, {
     type: "number",
-    placeholder: t('Please enter the amount to add'),
+    placeholder: t('Maximum single pledge amount') + toFixedFloor(maxAmount, 0),
     allowClear: true,
     value: inputNumber,
     onChange: inputNumberChange
@@ -896,6 +910,8 @@ const list_CustomStyle = styled_components_browser_esm/* default */.Ay.div`
 			color: #7E7B6F;
 			font-weight: bold;
     		margin-right: 30px;
+			font-family: swisse;
+			cursor: pointer;
 		}
 		em {
 			position: absolute;
@@ -918,9 +934,10 @@ const list_CustomStyle = styled_components_browser_esm/* default */.Ay.div`
 		background: rgb(255, 255, 255, 0.13);
 		margin-bottom: 10px;
 		span {
-			font-size: 12px;
+			font-size: 14px;
 			color: #9A9892;
 			font-weight: 500;
+			font-family: swisse;
 		}
 	}
 	.tabs_list_conter {
@@ -941,9 +958,12 @@ const list_CustomStyle = styled_components_browser_esm/* default */.Ay.div`
 		    display: flex;
 			align-items: center;
 			justify-content: center;
-			background: url(${buttom_bg_namespaceObject}) no-repeat;
-			background-size: 100%;
-			width: 48px;
+			// background: url(${buttom_bg_namespaceObject}) no-repeat;
+			// background-size: 100%;
+			// width: 48px;
+			background: #FFE9B440;
+			padding: 5px 10px;
+			border-radius: 10px;
 			height: 19px;
 			font-weight: bold;
 			color: #F2EBB4;
@@ -990,17 +1010,16 @@ function List(_ref) {
   const [messageApi, contextHolder] = message/* default */.Ay.useMessage();
   const [table, setTable] = (0,react.useState)(1);
   const [currentDate] = (0,react.useState)(Math.floor(Date.now() / 1000));
-  (0,react.useEffect)(() => {
-    if (address) {}
-  }, [address]);
+  const unRedeemed = listData.filter(item => !item.status);
+  const redeemed = listData.filter(item => item.status);
 
   // 赎回
-  const handleRed = async stakeIndex => {
+  const handleRed = async index => {
     const contract = new web3.eth.Contract(abiStaking, addressStakingContract[chain == null ? void 0 : chain.id]);
 
     // 获取gas费
     let gas = await web3.eth.getGasPrice();
-    await contract.methods.unstake(stakeIndex).send({
+    await contract.methods.unstake(index).send({
       from: address,
       gasPrice: gas
     }, (err, result) => {
@@ -1046,7 +1065,7 @@ function List(_ref) {
     className: "conts_wid4"
   }, t('Profit')), /*#__PURE__*/react.createElement("span", {
     className: "conts_wid5"
-  }, t('Progress'))), address ? /*#__PURE__*/react.createElement("div", null, !loading ? /*#__PURE__*/react.createElement("div", null, listData.length > 0 ? listData.map((item, index) => /*#__PURE__*/react.createElement("div", {
+  }, t('Progress'))), address ? /*#__PURE__*/react.createElement("div", null, !loading ? /*#__PURE__*/react.createElement("div", null, unRedeemed.length > 0 ? unRedeemed.map((item, index) => /*#__PURE__*/react.createElement("div", {
     key: index
   }, !item.status && /*#__PURE__*/react.createElement("div", {
     className: "tabs_list_conter"
@@ -1065,19 +1084,19 @@ function List(_ref) {
   item.stakeIndex === "0" ? /*#__PURE__*/react.createElement("i", null,
   // 86400
   currentDate > item.stakeTime * 1 + 1 * 60 ? /*#__PURE__*/react.createElement("em", {
-    onClick: () => handleRed(item.stakeIndex)
+    onClick: () => handleRed(item.index)
   }, t('Red')) : /*#__PURE__*/react.createElement("i", null, t('Pending'))) :
   // 质押天数15天
   item.stakeIndex === "1" ? /*#__PURE__*/react.createElement("i", null, currentDate > item.stakeTime * 1 + 15 * 60 ? /*#__PURE__*/react.createElement("em", {
-    onClick: () => handleRed(item.stakeIndex)
+    onClick: () => handleRed(item.index)
   }, t('Red')) : /*#__PURE__*/react.createElement("i", null, t('Pending'))) :
   // 质押天数30天
   item.stakeIndex === "2" ? /*#__PURE__*/react.createElement("i", null, currentDate > item.stakeTime * 1 + 30 * 60 ? /*#__PURE__*/react.createElement("em", {
-    onClick: () => handleRed(item.stakeIndex)
+    onClick: () => handleRed(item.index)
   }, t('Red')) : /*#__PURE__*/react.createElement("i", null, t('Pending'))) :
   // 质押天数5天
   item.stakeIndex === "3" ? /*#__PURE__*/react.createElement("i", null, currentDate > item.stakeTime * 1 + 5 * 60 ? /*#__PURE__*/react.createElement("em", {
-    onClick: () => handleRed(item.stakeIndex)
+    onClick: () => handleRed(item.index)
   }, t('Red')) : /*#__PURE__*/react.createElement("i", null, t('Pending'))) : /*#__PURE__*/react.createElement("i", null, t('Pending')))))) : /*#__PURE__*/react.createElement("div", {
     className: "noData"
   }, t('No data available'))) : /*#__PURE__*/react.createElement("div", {
@@ -1104,7 +1123,7 @@ function List(_ref) {
     className: "conts_wid4"
   }, t('Profit')), /*#__PURE__*/react.createElement("span", {
     className: "conts_wid5"
-  }, t('Progress'))), address ? /*#__PURE__*/react.createElement("div", null, !loading ? /*#__PURE__*/react.createElement("div", null, listData.length > 0 ? listData.map((item, index) => /*#__PURE__*/react.createElement("div", {
+  }, t('Progress'))), address ? /*#__PURE__*/react.createElement("div", null, !loading ? /*#__PURE__*/react.createElement("div", null, redeemed.length > 0 ? redeemed.map((item, index) => /*#__PURE__*/react.createElement("div", {
     key: index
   }, item.status && /*#__PURE__*/react.createElement("div", {
     className: "tabs_list_conter"
@@ -1225,7 +1244,7 @@ const comm1_CustomStyle = styled_components_browser_esm/* default */.Ay.div`
 		}
 	}
 	.comm1_assets_balance {
-		margin-top: 5%;
+		margin-top: 7%;
 		margin-bottom: 5%;
 		text-align: center;
 		span {
@@ -1240,11 +1259,13 @@ const comm1_CustomStyle = styled_components_browser_esm/* default */.Ay.div`
 	.comm1_performance {
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 		padding: 0 20px 15px;
 		span {
-		    font-size: 13px;
+		    font-size: 14px;
     		color: #9A9892;
 			font-weight: bold;
+			font-family: swisse;
 		}
 		em {
 			font-size: 13px;
@@ -1306,7 +1327,7 @@ function Comm1() {
   const [isInvitationReferral, setIsInvitationReferral] = (0,react.useState)(false); // 邀请人地址是否质押
   const [loading, setLoading] = (0,react.useState)(true);
   const [listData, setListData] = (0,react.useState)([]); // 列表
-
+  const [maxAmount, setMaxAmount] = (0,react.useState)("");
   const handleCopy = () => {
     const url = window.location.origin + '?invitation=' + address;
     if (copy_to_clipboard_default()(url)) {
@@ -1403,6 +1424,8 @@ function Comm1() {
         const records = [];
         for (let i = 0; i < stakeCount; i++) {
           const record = await contract.methods.userStakeRecord(address, i).call();
+          // const rewardOfSlot = await contract.methods.rewardOfSlot(address, i).call();
+          // const profit = Number(rewardOfSlot) - Number(record.amount);
           const rewardOfSlot = await contract.methods.rewardOfSlot(address, i).call();
           const profit = Number(rewardOfSlot) - Number(record.amount);
           const profitBig = new bignumber/* default */.A(profit.toString()).shiftedBy(-18).toString();
@@ -1439,6 +1462,22 @@ function Comm1() {
     handleIsBindReferral(); // 查询root地址、当前钱包地址是否质押、邀请人地址是否质押
     handleReferralContract(); // 查询Referral合约地址、最大质押数量、每天已经质押数量
   };
+  const handleOpenModal = async () => {
+    setOpenModal(true);
+
+    // 查询单笔最多质押数量
+    try {
+      var _chain$id4;
+      const contract = new web3.eth.Contract(abiStaking, addressStakingContract[(_chain$id4 = chain == null ? void 0 : chain.id) != null ? _chain$id4 : 56]);
+      if (address && contract) {
+        let maxStakeAmount = await contract.methods.maxStakeAmount().call();
+        const maxStakeAmountBig = new bignumber/* default */.A(maxStakeAmount.toString()).shiftedBy(-18).toString();
+        setMaxAmount(maxStakeAmountBig);
+      }
+    } catch (error) {
+      console.log('contract error===>', error);
+    }
+  };
   return /*#__PURE__*/react.createElement(comm1_CustomStyle, null, contextHolder, /*#__PURE__*/react.createElement("div", {
     className: "comm1_container"
   }, /*#__PURE__*/react.createElement("div", {
@@ -1457,7 +1496,7 @@ function Comm1() {
     className: "comm1_assets_title"
   }, /*#__PURE__*/react.createElement("div", {
     className: "comm1_assets_add",
-    onClick: () => setOpenModal(true)
+    onClick: handleOpenModal
   }, /*#__PURE__*/react.createElement("img", {
     src: assets_add_namespaceObject,
     alt: ""
@@ -1470,7 +1509,12 @@ function Comm1() {
   }, address.substring(0, 4), "...", address.substr(-4), /*#__PURE__*/react.createElement("img", {
     src: assets_copy_namespaceObject,
     alt: ""
-  })) : /*#__PURE__*/react.createElement("i", null, "-")) : /*#__PURE__*/react.createElement("em", null, "-"))), /*#__PURE__*/react.createElement("div", {
+  })) : /*#__PURE__*/react.createElement("i", {
+    onClick: handleCopy
+  }, address.substring(0, 4), "...", address.substr(-4), /*#__PURE__*/react.createElement("img", {
+    src: assets_copy_namespaceObject,
+    alt: ""
+  }))) : /*#__PURE__*/react.createElement("em", null, "-"))), /*#__PURE__*/react.createElement("div", {
     className: "comm1_banner"
   }, i18n.language === 'en' ? /*#__PURE__*/react.createElement("img", {
     src: banner1_en_namespaceObject,
@@ -1490,7 +1534,8 @@ function Comm1() {
     isBindReferral: isBindReferral,
     isInvitationReferral: isInvitationReferral,
     dayAccountMax: dayAccountMax,
-    dayAccountStake: dayAccountStake
+    dayAccountStake: dayAccountStake,
+    maxAmount: maxAmount
   }));
 }
 /* harmony default export */ const comm1 = (Comm1);
